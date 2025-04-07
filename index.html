@@ -2,22 +2,40 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Tree Test</title>
+  <title>Phylogenetic Tree Viewer</title>
   <script src="https://d3js.org/d3.v5.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/phylotree@1.0.0/dist/phylotree.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    textarea {
+      width: 100%;
+      max-width: 600px;
+    }
+    #tree-container {
+      margin-top: 20px;
+      border: 1px solid #ccc;
+      padding: 10px;
+    }
+  </style>
 </head>
 <body>
   <h1>Phylogenetic Tree Viewer</h1>
-  <textarea id="newickInput" rows="4" cols="60">(Human:0.2,Chimp:0.3,(Gorilla:0.25,Orangutan:0.35):0.4);</textarea><br>
+  <p>Paste your Newick tree below and click "Draw Tree" to view it.</p>
+  <textarea id="newickInput" rows="4">(Human:0.2,Chimp:0.3,(Gorilla:0.25,Orangutan:0.35):0.4);</textarea><br><br>
   <button onclick="drawTree()">Draw Tree</button>
+
   <div id="tree-container"></div>
 
   <script>
     function drawTree() {
       const newick = document.getElementById("newickInput").value;
-      document.getElementById("tree-container").innerHTML = "";
+      const container = document.getElementById("tree-container");
+      container.innerHTML = "";
       const tree = new phylotree.phylotree(newick);
-      tree.render("#tree-container");
+      tree.render(container);
     }
   </script>
 </body>
