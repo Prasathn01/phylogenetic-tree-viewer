@@ -10,14 +10,23 @@
       font-family: Arial, sans-serif;
       padding: 20px;
     }
+
     textarea {
       width: 100%;
       max-width: 600px;
     }
+
     #tree-container {
       margin-top: 20px;
       border: 1px solid #ccc;
       padding: 10px;
+      min-height: 400px; /* ⬅️ Ensures it's not zero-height */
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    svg {
+      width: 100% !important;
     }
   </style>
 </head>
@@ -34,8 +43,15 @@
       const newick = document.getElementById("newickInput").value;
       const container = document.getElementById("tree-container");
       container.innerHTML = "";
+
+      // Create the tree
       const tree = new phylotree.phylotree(newick);
+
+      // Attach tree to container element
       tree.render(container);
+
+      // Optional: You can log to check the tree is created
+      console.log("Tree rendered");
     }
   </script>
 </body>
