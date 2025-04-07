@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Phylogenetic Tree Viewer</title>
+  <script src="https://cdn.jsdelivr.net/npm/phylotree@1.0.0/dist/phylotree.min.js"></script>
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      padding: 2rem;
+    }
+    #tree-container {
+      height: 500px;
+      width: 100%;
+    }
+    textarea {
+      width: 80%;
+      height: 100px;
+      font-family: monospace;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Phylogenetic Tree Viewer</h1>
+  <p>Paste your Newick tree below:</p>
+  <textarea id="newick">((Seq1:0.01,Seq3:0.02):0.03,Seq2:0.04);</textarea><br>
+  <button onclick="drawTree()">Draw Tree</button>
+
+  <div id="tree-container"></div>
+
+  <script>
+    function drawTree() {
+      const newick = document.getElementById("newick").value;
+      document.getElementById("tree-container").innerHTML = ""; // Clear previous tree
+
+      new phylotree.phylotree(newick)
+        .svg(document.getElementById("tree-container"))
+        .layout("rectangular")
+        .branch_length("branch_length")
+        .render();
+    }
+
+    drawTree(); // auto-load example
+  </script>
+</body>
+</html>
