@@ -1,47 +1,111 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
   <title>Phylogenetic Tree Viewer</title>
-  <script src="https://cdn.jsdelivr.net/npm/phylotree@1.0.0/dist/phylotree.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/phylotree@1.0.0/phylotree.min.js"></script>
   <style>
     body {
-      font-family: Arial;
+      font-family: Arial, sans-serif;
       text-align: center;
-      padding: 2rem;
+      padding: 30px;
+      background-color: #f9f9f9;
     }
-    #tree-container {
-      height: 500px;
-      width: 100%;
+
+    h1 {
+      color: #2a4d69;
     }
+
     textarea {
       width: 80%;
-      height: 100px;
-      font-family: monospace;
-      margin-bottom: 1rem;
+      height: 80px;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #2a4d69;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #tree-container {
+      margin-top: 30px;
+    }
+
+    .info-box {
+      margin-top: 40px;
+      text-align: left;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 8px rgba(0,0,0,0.1);
+    }
+
+    ul {
+      text-align: left;
     }
   </style>
 </head>
 <body>
-  <h1>Phylogenetic Tree Viewer</h1>
-  <p>Paste your Newick tree below:</p>
-  <textarea id="newick">((Seq1:0.01,Seq3:0.02):0.03,Seq2:0.04);</textarea><br>
+
+  <h1>🧬 Phylogenetic Tree Viewer</h1>
+  <p>Paste your <strong>Newick-formatted tree</strong> below and click the button to draw it.</p>
+
+  <textarea id="newickInput">(Human:0.2,Chimpanzee:0.25,(Gorilla:0.3,Orangutan:0.35):0.4);</textarea><br>
   <button onclick="drawTree()">Draw Tree</button>
 
   <div id="tree-container"></div>
 
+  <div class="info-box">
+    <h2>🔍 About This Tool</h2>
+    <p>This simple bioinformatics tool allows you to visualize evolutionary relationships by generating a phylogenetic tree from a DNA or protein alignment in Newick format.</p>
+
+    <h3>📄 Example Tree:</h3>
+    <pre>(Human:0.2,Chimpanzee:0.25,(Gorilla:0.3,Orangutan:0.35):0.4);</pre>
+
+    <h3>👨‍💻 Developed by:</h3>
+    <ul>
+      <li>Student 1 – Biology Concepts</li>
+      <li>Student 2 – Tools & Workflow</li>
+      <li>Student 3 – Website Design & Coding</li>
+      <li>Student 4 – Applications & Future Scope</li>
+    </ul>
+  </div>
+
   <script>
     function drawTree() {
-      const newick = document.getElementById("newick").value;
-      document.getElementById("tree-container").innerHTML = ""; // Clear previous tree
+      const newick = document.getElementById('newickInput').value;
+      document.getElementById('tree-container').innerHTML = '';
 
-      new phylotree.phylotree(newick)
-        .svg(document.getElementById("tree-container"))
-        .layout("rectangular")
-        .branch_length("branch_length")
-        .render();
+      const tree = d3.layout.phylotree()
+        .svg(document.getElementById('tree-container'))
+        .size([800, 400])
+        .branch_length('branch_length')
+        .node_circle_size(4)
+        .options({
+          'draw-size-bubbles': false,
+          'align-tips': true
+        });
+
+      try {
+        tree(newick).layout();
+      } catch (e) {
+        alert("Invalid Newick format. Please check your input.");
+      }
     }
 
-    drawTree(); // auto-load example
+    // Draw the default tree on load
+    window.onload = drawTree;
   </script>
+
 </body>
 </html>
+
