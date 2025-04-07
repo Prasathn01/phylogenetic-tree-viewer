@@ -20,7 +20,7 @@
       margin-top: 20px;
       border: 1px solid #ccc;
       padding: 10px;
-      min-height: 400px; /* ⬅️ Ensures it's not zero-height */
+      min-height: 400px;
       width: 100%;
       overflow-x: auto;
     }
@@ -44,13 +44,11 @@
       const container = document.getElementById("tree-container");
       container.innerHTML = "";
 
-      // Create the tree
-      const tree = new phylotree.phylotree(newick);
+      const tree = phylotree(newick)
+        .svg(container)
+        .layout("right")
+        .render();
 
-      // Attach tree to container element
-      tree.render(container);
-
-      // Optional: You can log to check the tree is created
       console.log("Tree rendered");
     }
   </script>
