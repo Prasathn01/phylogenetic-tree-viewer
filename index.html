@@ -10,7 +10,7 @@
       font-family: Arial, sans-serif;
       text-align: center;
       padding: 30px;
-      background-color: #f9f9f9;
+      background-color: #f4f4f4;
     }
 
     h1 {
@@ -50,13 +50,21 @@
 
   <script>
     function drawTree() {
-      document.getElementById("tree-container").innerHTML = "";
-
       const newick = document.getElementById("newickInput").value;
-      const tree = new phylotree(newick)
-        .svg(d3.select("#tree-container").append("svg").attr("width", 800).attr("height", 500))
-        .layout();
+      document.getElementById("tree-container").innerHTML = ""; // Clear previous tree
+
+      const tree = new phylotree.phylotree(newick);
+
+      tree.render('#tree-container', {
+        'layout': 'rect',
+        'svg': true
+      });
     }
+  </script>
+
+</body>
+</html>
+
   </script>
 
 </body>
