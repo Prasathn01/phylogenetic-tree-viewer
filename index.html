@@ -1,33 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Phylogenetic Tree Viewer</title>
   <script src="https://d3js.org/d3.v5.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/phylotree@1.0.0/phylotree.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/phylotree@1.0.0/dist/phylotree.min.js"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
       text-align: center;
       padding: 30px;
-      background-color: #f4f4f4;
+      background-color: #f0f0f0;
     }
 
     h1 {
-      color: #2a4d69;
+      color: #333;
     }
 
     textarea {
       width: 80%;
       height: 80px;
       font-size: 16px;
-      margin-bottom: 10px;
+      margin: 10px 0;
     }
 
     button {
       padding: 10px 20px;
       font-size: 16px;
-      background-color: #2a4d69;
+      background-color: #4CAF50;
       color: white;
       border: none;
       border-radius: 5px;
@@ -42,7 +42,7 @@
 <body>
 
   <h1>🧬 Phylogenetic Tree Viewer</h1>
-  <p>Paste your Newick tree below and visualize it:</p>
+  <p>Paste a Newick format tree below:</p>
   <textarea id="newickInput">(Human:0.2,Chimpanzee:0.25,(Gorilla:0.3,Orangutan:0.35):0.4);</textarea><br>
   <button onclick="drawTree()">Draw Tree</button>
 
@@ -50,15 +50,13 @@
 
   <script>
     function drawTree() {
+      const container = document.getElementById("tree-container");
+      container.innerHTML = ""; // clear old tree
+
       const newick = document.getElementById("newickInput").value;
-      document.getElementById("tree-container").innerHTML = ""; // Clear previous tree
 
       const tree = new phylotree.phylotree(newick);
-
-      tree.render('#tree-container', {
-        'layout': 'rect',
-        'svg': true
-      });
+      tree.render(container);
     }
   </script>
 
